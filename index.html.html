@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Para Mari 💗</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#1a0b2e;--bg2:#3b1146;--pink:#ff6b9d;--soft:#ffd6e5;--paper:#fff7f2;--ink:#5a2a3c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(180deg,var(--bg1),var(--bg2));font-family:'Quicksand',system-ui,sans-serif;color:var(--soft);overflow:hidden;position:relative}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.title{position:absolute;top:calc(env(safe-area-inset-top,0px) + 18px);left:0;right:0;text-align:center;font-family:'Dancing Script',cursive,serif;font-size:clamp(28px,6vw,46px);color:var(--soft);text-shadow:0 0 18px rgba(255,107,157,.7);opacity:0}body.on .title{animation:fade 2s 1s forwards}
+.bottom{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);text-align:center;padding:0 12px;opacity:0}body.on .bottom{animation:fade 2s 3s forwards}
+.lbl{font-family:'Dancing Script',cursive,serif;font-size:clamp(20px,4.5vw,28px);margin-bottom:8px}
+.timer{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.box{background:rgba(255,255,255,.08);border:1px solid rgba(255,182,210,.35);border-radius:14px;padding:8px 10px;min-width:62px;backdrop-filter:blur(4px)}
+.box b{display:block;font-size:clamp(20px,5vw,30px);color:#fff}
+.box span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.btn{margin-top:14px;border:0;border-radius:999px;padding:12px 28px;font:600 17px 'Quicksand',sans-serif;color:#fff;background:linear-gradient(135deg,#ff6b9d,#c2185b);box-shadow:0 0 22px rgba(255,107,157,.6);cursor:pointer;animation:beat 1.6s infinite}
+@keyframes beat{50%{transform:scale(1.06)}}
+@keyframes fade{to{opacity:1}}
+.modal{position:fixed;inset:0;background:rgba(10,3,20,.8);display:none;align-items:center;justify-content:center;padding:18px;z-index:5}
+.modal.on{display:flex}
+.letter{background:var(--paper);color:var(--ink);max-width:560px;width:100%;max-height:85%;overflow-y:auto;border-radius:16px;padding:28px 24px;box-shadow:0 10px 50px rgba(255,107,157,.45);animation:rise .8s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(30px) scale(.96)}}
+.letter h2{font-family:'Dancing Script',cursive,serif;font-size:34px;margin:0 0 12px;color:#c2185b}
+.letter p{font-family:'Dancing Script',cursive,serif;font-size:clamp(21px,4.6vw,25px);line-height:1.5;margin:0 0 14px;font-weight:500}
+.lock{position:fixed;inset:0;z-index:10;background:linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;text-align:center;transition:opacity 1.2s}
+.lock.off{opacity:0;pointer-events:none}
+.lock .big{font-size:56px;animation:beat 1.6s infinite}
+.lock h1{font-family:'Dancing Script',cursive,serif;font-size:clamp(30px,7vw,44px);margin:0;text-shadow:0 0 18px rgba(255,107,157,.7)}
+.lock input{width:170px;text-align:center;font:600 28px 'Quicksand',sans-serif;letter-spacing:.5em;padding:10px 0 10px .5em;border-radius:14px;border:1px solid rgba(255,182,210,.5);background:rgba(255,255,255,.08);color:#fff;outline:none}
+.lock input:focus{box-shadow:0 0 16px rgba(255,107,157,.6)}
+.lock .msg{min-height:20px;font-size:14px;color:#ff9fbd}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.btns .btn{margin-top:0;padding:11px 20px;font-size:15px}
+.btn.alt{background:linear-gradient(135deg,#9c4dcc,#c2185b);box-shadow:0 0 22px rgba(190,100,255,.5)}
+.reason{font-family:'Dancing Script',cursive,serif;font-size:clamp(26px,6vw,34px);line-height:1.35;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center;margin:10px 0 18px;animation:rise .6s ease both}
+.nick{font-family:'Dancing Script',cursive,serif;font-size:20px;color:#a0526b;margin:-4px 0 16px}
+.sign{font-family:'Dancing Script',cursive,serif;font-size:28px;color:#c2185b;text-align:right;margin:4px 0 14px}
+.close{display:block;margin:6px auto 0;border:0;background:#c2185b;color:#fff;border-radius:999px;padding:9px 24px;font:600 15px 'Quicksand',sans-serif;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="lock" id="lock">
+  <div class="big">💗</div>
+  <h1>Hola Mari</h1>
+  <div>Escribe la contraseña para entrar</div>
+  <input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="Contraseña">
+  <div class="msg" id="msg"></div>
+</div>
+<canvas id="c"></canvas>
+<div class="title">Para ti, Mari 💗</div>
+<div class="bottom">
+  <div class="lbl">Todo el tiempo que llevo amándote</div>
+  <div class="timer" id="t"></div>
+  <div class="btns">
+    <button class="btn" data-open="m">Léeme Mari 💌</button>
+    <button class="btn alt" data-open="m3">Razones por las que te amo 💕</button>
+    <button class="btn alt" data-open="m2">Mi promesa 🤍</button>
+  </div>
+</div>
+<div class="modal" id="m">
+  <div class="letter">
+    <h2>Para: Mari 💗</h2>
+    <div class="nick">amor · Princesita · leoncito · mi Reina · mi vida</div>
+    <p class="tw">Mari espero te guste lo que diseñe para vos, solo quiero que todo este como antes, como antes me refiero a esta epoca que tuvimos sin peleas. Se que crees que te estoy mintiendo pero mari de verdad te lo prometo y te lo juro por lo que querras que no, no se que hacer para que me creas y se que es mi culpa que no me creas pero de verdad creeme que lo estoy haciendo mejor, no te estoy mintiendo amor, espero podas creeme si necesitas que mi padre te diga te lo dice no hay problema pero no quiero seguir peleando yo de verdad te amo si se que avaces me enojo o me estreso y te digo cosas que no deberia pero de verdad te pido disculpas. Espero sepas que te amo y que siempre lo voy hacer disculpame por todo lo malo que te e hecho te prometo que voy a mejorar todo</p>
+    <div class="sign">De: Mateo 💗</div>
+    <button class="close">Cerrar</button>
+  </div>
+</div>
+<div class="modal" id="m2">
+  <div class="letter">
+    <h2>Mi promesa 🤍</h2>
+    <div class="nick">Para: Mari (amor, Princesita, leoncito, mi Reina, mi vida)</div>
+    <p class="tw">Mari te prometo que cada día voy a esforzarme por ser mejor cortejo para vos. Voy a escucharte, a cuidar mis palabras por más que me enoje o me estrese, y a hablarte siempre diciendo la verdad sin mentirte. Te prometo que nunca me voy a cansar de intentar mejorar para vos, mi amor por vos siempre va a ser más grande que cualquier mal momento. Esta es mi promesa, mor, y te lo juro que la voy a cumplir.</p>
+    <div class="sign">De: Mateo 💗</div>
+    <button class="close">Cerrar</button>
+  </div>
+</div>
+<div class="modal" id="m3">
+  <div class="letter">
+    <h2>Razones por las que te amo 💕</h2>
+    <div class="reason" id="reason"></div>
+    <button class="close" id="next" style="margin-bottom:10px">Otra razón 💗</button>
+    <button class="close" style="background:#999">Cerrar</button>
+  </div>
+</div>
+<script>
+// ====== CAMBIA AQUÍ LA FECHA EN QUE EMPEZARON (año, mes 1-12, día, hora, minuto) ======
+var START = new Date(2026, 2, 16, 0, 0);
+// =====================================================================================
+
+var cv=document.getElementById('c'),ctx=cv.getContext('2d'),W,H,branches,hearts,falling=[];
+var MAX=7,T0=performance.now();
+function heart(x,y,s,col,a){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.globalAlpha=a;ctx.fillStyle=col;ctx.beginPath();
+ctx.moveTo(0,3);ctx.bezierCurveTo(-1,-1,-7,-2,-7,3);ctx.bezierCurveTo(-7,7,0,10,0,13);ctx.bezierCurveTo(0,10,7,7,7,3);ctx.bezierCurveTo(7,-2,1,-1,0,3);ctx.fill();ctx.restore()}
+var cols=['#ff6b9d','#ff4d88','#e91e63','#ff8fb3','#ffb3cf','#d81b60'];
+function build(){
+  var d=Math.min(W,H*.9);
+  cv.width=W*devicePixelRatio;cv.height=H*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  branches=[];hearts=[];
+  var baseY=H-(W<600?150:170),len=Math.min(H*.2,d*.2);
+  (function g(x,y,l,a,dp){
+    var x2=x+Math.cos(a)*l,y2=y+Math.sin(a)*l;
+    branches.push({x:x,y:y,x2:x2,y2:y2,d:dp});
+    if(dp>=4){var n=dp===MAX?5:2;for(var i=0;i<n;i++)hearts.push({x:x2+(Math.random()-.5)*d*.09,y:y2+(Math.random()-.5)*d*.09,s:.7+Math.random()*(dp===MAX?1.1:.7),c:cols[(Math.random()*cols.length)|0],t:(MAX*650+Math.random()*4500),p:Math.random()*6})}
+    if(dp<MAX){var k=dp<2?2:(Math.random()<.35?3:2);for(var j=0;j<k;j++){var spread=(j-(k-1)/2)*.62+(Math.random()-.5)*.25;g(x2,y2,l*(.74+Math.random()*.06),a+spread,dp+1)}}
+  })(W/2,baseY,len,-Math.PI/2,0);
+}
+function resize(){W=innerWidth;H=innerHeight;build();initBg()}
+addEventListener('resize',resize);resize();
+var stars,flies,bursts=[];
+function initBg(){
+  stars=[];flies=[];
+  for(var i=0;i<90;i++)stars.push({x:Math.random()*W,y:Math.random()*H*.75,r:Math.random()*1.4+.3,p:Math.random()*6});
+  for(var j=0;j<18;j++)flies.push({x:Math.random()*W,y:H*.3+Math.random()*H*.6,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,p:Math.random()*6});
+}
+function drawBg(now){
+  ctx.fillStyle='#fff';
+  stars.forEach(function(st){ctx.globalAlpha=.25+.75*Math.abs(Math.sin(now/900+st.p));ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,6.3);ctx.fill()});
+  ctx.shadowColor='#ffe08a';ctx.shadowBlur=14;ctx.fillStyle='#ffe9a0';
+  flies.forEach(function(f){
+    f.vx+=(Math.random()-.5)*.05;f.vy+=(Math.random()-.5)*.05;
+    f.vx=Math.max(-.6,Math.min(.6,f.vx));f.vy=Math.max(-.6,Math.min(.6,f.vy));
+    f.x+=f.vx;f.y+=f.vy;
+    if(f.x<0)f.x=W;if(f.x>W)f.x=0;if(f.y<H*.2)f.vy=Math.abs(f.vy);if(f.y>H-120)f.vy=-Math.abs(f.vy);
+    ctx.globalAlpha=.2+.8*Math.abs(Math.sin(now/700+f.p));
+    ctx.beginPath();ctx.arc(f.x,f.y,2.2,0,6.3);ctx.fill();
+  });
+  ctx.shadowBlur=0;ctx.globalAlpha=1;
+}
+function frame(now){
+  var e=now-T0;ctx.clearRect(0,0,W,H);drawBg(now);
+  branches.forEach(function(b){
+    var st=b.d*650,p=Math.min(1,Math.max(0,(e-st)/750));if(p<=0)return;
+    ctx.strokeStyle='#6b3a4a';ctx.lineCap='round';ctx.lineWidth=Math.max(1.2,(MAX-b.d+1)*1.9);
+    ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x+(b.x2-b.x)*p,b.y+(b.y2-b.y)*p);ctx.stroke();
+  });
+  hearts.forEach(function(h){
+    var p=Math.min(1,Math.max(0,(e-h.t)/900));if(p<=0)return;
+    var s=h.s*(1-Math.pow(1-p,3))*(1+Math.sin(now/600+h.p)*.06);
+    ctx.shadowColor=h.c;ctx.shadowBlur=8;heart(h.x,h.y,s,h.c,p);ctx.shadowBlur=0;
+  });
+  if(e>MAX*650+4000&&Math.random()<.08&&falling.length<30){var h=hearts[(Math.random()*hearts.length)|0];falling.push({x:h.x,y:h.y,s:.4+Math.random()*.5,c:h.c,v:.4+Math.random()*.6,w:Math.random()*6})}
+  falling=falling.filter(function(f){f.y+=f.v;f.x+=Math.sin(f.y/30+f.w)*.5;heart(f.x,f.y,f.s,f.c,.8);return f.y<H-140});
+  bursts=bursts.filter(function(b){b.vy+=.12;b.x+=b.vx;b.y+=b.vy;b.life-=.01;if(b.life>0)heart(b.x,b.y,b.s,b.c,Math.min(1,b.life));return b.life>0});
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+document.addEventListener('pointerdown',function(ev){
+  if(ev.target.closest('button,.modal,.lock'))return;
+  for(var i=0;i<9;i++)bursts.push({x:ev.clientX,y:ev.clientY,vx:(Math.random()-.5)*4,vy:-Math.random()*3-1,s:.5+Math.random()*.8,c:cols[(Math.random()*cols.length)|0],life:1+Math.random()*.8});
+});
+
+// ===== Contador =====
+var tEl=document.getElementById('t');
+function pad(n){return n<10?'0'+n:n}
+function tick(){
+  var now=new Date();
+  var m=(now.getFullYear()-START.getFullYear())*12+now.getMonth()-START.getMonth();
+  var a=new Date(START);a.setMonth(START.getMonth()+m);
+  if(a>now){m--;a=new Date(START);a.setMonth(START.getMonth()+m)}
+  var r=Math.floor((now-a)/1000);
+  var d=Math.floor(r/86400),h=Math.floor(r%86400/3600),mi=Math.floor(r%3600/60),s=r%60;
+  var it=[[m,'Meses'],[d,'Días'],[pad(h),'Horas'],[pad(mi),'Minutos'],[pad(s),'Segundos']];
+  tEl.innerHTML=it.map(function(x){return '<div class="box"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('');
+}
+tick();setInterval(tick,1000);
+
+var pin=document.getElementById('pin'),lock=document.getElementById('lock'),msg=document.getElementById('msg');
+pin.addEventListener('input',function(){
+  if(pin.value.length<4){msg.textContent='';return}
+  if(pin.value==='1603'){T0=performance.now();document.body.classList.add('on');lock.classList.add('off');setTimeout(function(){lock.style.display='none'},1300)}
+  else{msg.textContent='Contraseña incorrecta, intenta de nuevo 💔';pin.classList.remove('shake');void pin.offsetWidth;pin.classList.add('shake');pin.value=''}
+});
+var reasons=['Porque simplemente sos vos, Mari, y eso es todo lo que necesito en mi vida.','Porque cuando estoy con vos soy la persona más feliz del mundo.','Porque con vos hasta los peores días se convierten en los mejores días.','Porque me alentás a convertirme en una mejor persona para vos.','Porque sos la mujer de mi vida.','Porque cada momento a tu lado son recuerdos que siempre van a estar en mi corazón.','Porque aunque a veces la cago, siempre busco mejorar para vos. Sos lo que más quiero cuidar.','Porque tenés un corazón enorme y hermoso que quiero cuidar.','Porque no hay nadie como vos, tu forma única de ser hace que te ame cada vez más.','Porque sos Mariana Carrasco y daría lo que sea y haría lo que sea para que seas feliz.'];
+var order=[],reasonEl=document.getElementById('reason');
+function nextReason(){
+  if(!order.length)order=reasons.map(function(_,i){return i}).sort(function(){return Math.random()-.5});
+  reasonEl.style.animation='none';void reasonEl.offsetWidth;reasonEl.style.animation='';
+  reasonEl.textContent=reasons[order.pop()];
+}
+var timer;
+function typeIn(m){
+  clearInterval(timer);
+  var el=m.querySelector('.tw');if(!el)return;
+  if(!el.dataset.full)el.dataset.full=el.textContent;
+  var full=el.dataset.full,i=0;
+  function put(){el.innerHTML='';var a=document.createElement('span');a.textContent=full.slice(0,i);var b=document.createElement('span');b.style.opacity=0;b.textContent=full.slice(i);el.append(a,b)}
+  put();
+  timer=setInterval(function(){i++;put();if(i>=full.length)clearInterval(timer)},35);
+  el.onclick=function(){i=full.length;put();clearInterval(timer)};
+}
+function closeAll(){clearInterval(timer);document.querySelectorAll('.modal').forEach(function(x){x.classList.remove('on')})}
+document.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){
+  var m=document.getElementById(b.dataset.open);m.classList.add('on');
+  if(m.id==='m3')nextReason();else typeIn(m);
+}});
+document.querySelectorAll('.modal').forEach(function(m){m.onclick=function(e){if(e.target===m)closeAll()}});
+document.querySelectorAll('.close').forEach(function(b){b.onclick=closeAll});
+var nx=document.getElementById('next');nx.onclick=nextReason;
+</script>
+</body>
+</html>
